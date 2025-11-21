@@ -98,9 +98,22 @@ You can also run the application using Docker.
 
 ### 6. Docker Compose
 
-You can also use Docker Compose to run the application.
+You can also use Docker Compose to run the application using the pre-built image.
 
-1.  **Start the Service**
+1.  **Create `docker-compose.yml`**
+    ```yaml
+    version: '3.8'
+    services:
+      app:
+        image: christoj/pg-slow-query-analyzer:1.0
+        ports:
+          - "3001:3001"
+        volumes:
+          - ./data:/app/data
+        restart: unless-stopped
+    ```
+
+2.  **Start the Service**
     ```bash
     docker-compose up -d
     ```

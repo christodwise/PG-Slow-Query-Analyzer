@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: christoj/pg-slow-query-analyzer:1.0
+    # build: .
     ports:
       - "3001:3001"
     volumes:
