@@ -91,14 +91,28 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ queryStat, onClose }) => 
             </div>
           ) : (
             <div className="prose prose-invert max-w-none animate-fade-in-up">
-              <div className="bg-slate-800/40 p-6 rounded-xl border border-slate-700/50 shadow-lg">
-                <h4 className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-bold text-lg mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  Optimization Report
+              <div className={`p-6 rounded-xl border shadow-lg ${analysis?.includes('Error: API Key not found') ? 'bg-red-500/10 border-red-500/30' : 'bg-slate-800/40 border-slate-700/50'}`}>
+                <h4 className={`font-bold text-lg mb-4 flex items-center gap-2 ${analysis?.includes('Error: API Key not found') ? 'text-red-400' : 'text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400'}`}>
+                  {analysis?.includes('Error: API Key not found') ? (
+                    <>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                      Configuration Error
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      Optimization Report
+                    </>
+                  )}
                 </h4>
                 <div className="whitespace-pre-wrap text-slate-300 text-sm leading-relaxed font-light tracking-wide">
                   {analysis}
                 </div>
+                {analysis?.includes('Error: API Key not found') && (
+                  <div className="mt-4 pt-4 border-t border-red-500/20">
+                    <p className="text-sm text-red-300 mb-2">Please configure your Gemini API Key in the settings.</p>
+                  </div>
+                )}
               </div>
             </div>
           )}

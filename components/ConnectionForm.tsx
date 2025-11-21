@@ -77,8 +77,10 @@ const ConnectionForm: React.FC<ConnectionFormProps> = ({ onConnect, loading, err
         <div className="relative z-10">
           <div className="text-center mb-8">
             <div className="flex justify-center mb-6">
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 shadow-inner">
-                <img src="/lifetrenz_logo.png" alt="Lifetrenz Logo" className="h-12 w-auto drop-shadow-lg" />
+              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50 shadow-inner inline-block">
+                <svg className="h-12 w-12 text-blue-500 drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                </svg>
               </div>
             </div>
             <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Connect to Database</h2>

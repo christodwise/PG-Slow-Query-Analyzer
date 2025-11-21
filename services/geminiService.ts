@@ -2,9 +2,15 @@ import { GoogleGenAI } from "@google/genai";
 import { QueryStat } from "../types";
 
 const getAiClient = () => {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) return null;
-  return new GoogleGenAI({ apiKey });
+  // First check localStorage (user settings)
+  const localKey = localStorage.getItem('gemini_api_key');
+  if (localKey) return new GoogleGenAI({ apiKey: localKey });
+
+  // Fallback to env var
+  const envKey = process.env.API_KEY;
+  if (envKey) return new GoogleGenAI({ apiKey: envKey });
+
+  return null;
 };
 
 export const analyzeQuery = async (queryStat: QueryStat): Promise<string> => {

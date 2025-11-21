@@ -165,7 +165,7 @@ const QueryTable: React.FC<QueryTableProps> = ({ queries, onAnalyze, mode }) => 
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
-                      <span>Analyze</span>
+                      <span>Analyze with AI</span>
                     </button>
                   </td>
                 </tr>
