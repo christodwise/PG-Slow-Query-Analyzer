@@ -17,7 +17,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-black text-slate-200">
       <main>
         {!connection ? (
           <ConnectionForm onConnect={handleConnect} loading={loading} />

@@ -167,12 +167,12 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-slate-200 font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen text-slate-200 font-sans selection:bg-blue-500/30 pb-12">
       {/* Header */}
-      <header className="glass-header sticky top-0 z-50 transition-all duration-300">
+      <header className="glass-header sticky top-0 z-50 transition-all duration-300 mb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="bg-blue-500/20 p-2 rounded-lg border border-blue-500/30">
+            <div className="bg-blue-500/20 p-2 rounded-lg border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
               <svg className="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
               </svg>
@@ -187,7 +187,7 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
 
           <div className="flex items-center gap-4">
             {/* Mode Switcher - Pill Style */}
-            <div className="bg-slate-800/80 p-1 rounded-full border border-slate-700/50 flex relative">
+            <div className="bg-slate-800/80 p-1 rounded-full border border-slate-700/50 flex relative shadow-inner">
               <button
                 onClick={() => setMode('live')}
                 className={`relative z-10 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${mode === 'live' ? 'text-white shadow-lg bg-gradient-to-r from-blue-600 to-blue-500' : 'text-slate-400 hover:text-slate-200'}`}
@@ -220,83 +220,88 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
               </button>
             )}
 
+            <div className="h-8 w-px bg-slate-700 mx-2"></div>
+
             <button
               onClick={onDisconnect}
-              className="px-4 py-2 rounded-full text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-300 border border-transparent hover:border-slate-700"
+              className="text-sm font-semibold text-slate-400 hover:text-white transition-all duration-300 flex items-center gap-2 bg-slate-800/50 hover:bg-red-500/10 hover:border-red-500/30 border border-transparent px-4 py-2 rounded-lg group"
             >
-              Disconnect
+              <svg className="w-4 h-4 group-hover:text-red-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              <span>Disconnect</span>
             </button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
 
         {loading && (
           <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"></div>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-6 py-4 rounded-xl mb-8 animate-fade-in-up flex items-center gap-3">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-6 py-4 rounded-xl mb-8 animate-fade-in-up flex items-center gap-3 shadow-lg shadow-red-500/5">
+            <svg className="w-6 h-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             {error}
           </div>
         )}
 
         {/* Metrics Overview Cards */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-10">
-          <div className="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform duration-300 group">
+          <div className="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-all duration-300 group border-t-4 border-t-blue-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-blue-500/20 p-3 rounded-lg group-hover:bg-blue-500/30 transition-colors">
+              <div className="bg-blue-500/10 p-3 rounded-xl group-hover:bg-blue-500/20 transition-colors">
                 <svg className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Total</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Queries</span>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">{stats.totalQueries}</div>
-            <div className="text-sm text-slate-400">Captured Queries</div>
+            <div className="text-4xl font-bold text-white mb-1 tracking-tight">{stats.totalQueries}</div>
+            <div className="text-sm text-slate-400 font-medium">Captured in view</div>
           </div>
 
-          <div className="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform duration-300 group">
+          <div className="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-all duration-300 group border-t-4 border-t-red-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-red-500/20 p-3 rounded-lg group-hover:bg-red-500/30 transition-colors">
+              <div className="bg-red-500/10 p-3 rounded-xl group-hover:bg-red-500/20 transition-colors">
                 <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Critical</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Critical</span>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">{stats.criticalCount}</div>
-            <div className="text-sm text-slate-400">Slow Queries (&gt;1s)</div>
+            <div className="text-4xl font-bold text-white mb-1 tracking-tight">{stats.criticalCount}</div>
+            <div className="text-sm text-slate-400 font-medium">Slow Queries (&gt;1s)</div>
           </div>
 
-          <div className="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform duration-300 group">
+          <div className="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-all duration-300 group border-t-4 border-t-orange-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-orange-500/20 p-3 rounded-lg group-hover:bg-orange-500/30 transition-colors">
+              <div className="bg-orange-500/10 p-3 rounded-xl group-hover:bg-orange-500/20 transition-colors">
                 <svg className="h-6 w-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Slowest</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Slowest</span>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">{stats.slowestQuery.toFixed(0)}<span className="text-lg text-slate-500 ml-1">ms</span></div>
-            <div className="text-sm text-slate-400">Max Mean Time</div>
+            <div className="text-4xl font-bold text-white mb-1 tracking-tight">{stats.slowestQuery.toFixed(0)}<span className="text-xl text-slate-500 ml-1 font-normal">ms</span></div>
+            <div className="text-sm text-slate-400 font-medium">Max Mean Time</div>
           </div>
 
-          <div className="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform duration-300 group">
+          <div className="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-all duration-300 group border-t-4 border-t-green-500">
             <div className="flex items-center justify-between mb-4">
-              <div className="bg-green-500/20 p-3 rounded-lg group-hover:bg-green-500/30 transition-colors">
+              <div className="bg-green-500/10 p-3 rounded-xl group-hover:bg-green-500/20 transition-colors">
                 <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               </div>
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Refresh</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Auto-Refresh</span>
             </div>
-            <div className="text-3xl font-bold text-white mb-1">{refreshTimer}<span className="text-lg text-slate-500 ml-1">s</span></div>
-            <div className="text-sm text-slate-400">Auto-update</div>
+            <div className="text-4xl font-bold text-white mb-1 tracking-tight">{refreshTimer}<span className="text-xl text-slate-500 ml-1 font-normal">s</span></div>
+            <div className="text-sm text-slate-400 font-medium">Next update</div>
           </div>
         </div>
 
@@ -332,23 +337,26 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
 
         {/* Main Content - Query Table */}
         {(mode === 'live' || mode === 'daily-top') && (
-          <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl animate-fade-in-up">
-            <div className="px-8 py-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/30">
+          <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl animate-fade-in-up ring-1 ring-white/5">
+            <div className="px-8 py-6 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/30 backdrop-blur-md">
               <div>
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white flex items-center gap-3">
                   {mode === 'live' ? (
                     <>
-                      <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                      <span className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                      </span>
                       Live Query Performance
                     </>
                   ) : (
                     <>
-                      <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <svg className="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       Daily Top 20 Slowest
                     </>
                   )}
                 </h3>
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-sm text-slate-400 ml-6">
                   {mode === 'live'
                     ? 'Real-time analysis from pg_stat_statements'
                     : 'Historical record of the slowest queries today'
@@ -359,16 +367,16 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
                 <div className="flex gap-3">
                   <button
                     onClick={handleReset}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all duration-200"
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 transition-all duration-200 hover:shadow-[0_0_10px_rgba(239,68,68,0.2)]"
                   >
                     Reset Stats
                   </button>
                   <button
                     onClick={handleRefresh}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all duration-200 flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-all duration-200 flex items-center gap-2 hover:shadow-[0_0_10px_rgba(59,130,246,0.2)]"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                    Refresh
+                    Refresh Now
                   </button>
                 </div>
               )}
@@ -381,10 +389,11 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
               />
             </div>
             <div className="px-8 py-4 border-t border-slate-700/50 bg-slate-900/50 flex justify-between items-center">
-              <div className="text-xs text-slate-500 font-mono">
+              <div className="text-xs text-slate-500 font-mono flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
                 Last sync: {lastUpdated.toLocaleTimeString()}
               </div>
-              <div className="text-xs text-slate-600">
+              <div className="text-xs text-slate-500 font-medium">
                 Showing {queries.length} queries
               </div>
             </div>
@@ -399,7 +408,7 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
         )}
 
         {/* Footer */}
-        <div className="mt-12 border-t border-slate-800/50 pt-8 text-center pb-8">
+        <div className="mt-16 border-t border-slate-800/50 pt-8 text-center">
           <p className="text-slate-500 text-sm flex items-center justify-center gap-2 group cursor-default">
             <span>Made with</span>
             <svg className="w-4 h-4 text-red-500 animate-pulse" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>

@@ -54,78 +54,87 @@ const QueryTable: React.FC<QueryTableProps> = ({ queries, onAnalyze, mode }) => 
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <div className="relative max-w-md w-full">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 px-8">
+        <div className="relative max-w-md w-full group">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none transition-colors duration-300 group-focus-within:text-blue-400">
             <svg className="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-slate-700 rounded-md leading-5 bg-slate-800 text-slate-300 placeholder-slate-500 focus:outline-none focus:bg-slate-900 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
-            placeholder="Search SQL..."
+            className="block w-full pl-10 pr-3 py-2.5 border border-slate-700/50 rounded-xl leading-5 bg-slate-800/50 text-slate-200 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 sm:text-sm transition-all duration-300 shadow-inner"
+            placeholder="Search SQL queries..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="text-sm text-slate-400">
-          Showing {filteredAndSortedQueries.length} queries
+        <div className="text-sm text-slate-400 font-medium bg-slate-800/30 px-3 py-1 rounded-lg border border-slate-700/30">
+          Showing <span className="text-white font-bold">{filteredAndSortedQueries.length}</span> queries
         </div>
       </div>
 
-      <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg border border-slate-700">
-        <table className="min-w-full divide-y divide-slate-700 bg-slate-800">
-          <thead className="bg-slate-900/50">
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-slate-700/50">
+          <thead className="bg-slate-800/50">
             <tr>
-              <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-1/2">
+              <th scope="col" className="py-4 pl-8 pr-3 text-left text-xs font-bold text-slate-400 uppercase tracking-wider w-1/2">
                 Query Statement
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-blue-400 transition-colors group"
                 onClick={() => handleSort('mean_time')}
               >
-                Mean Time <SortIcon field="mean_time" />
+                <div className="flex items-center gap-1">
+                  Mean Time <SortIcon field="mean_time" />
+                </div>
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-blue-400 transition-colors group"
                 onClick={() => handleSort('calls')}
               >
-                Calls <SortIcon field="calls" />
+                <div className="flex items-center gap-1">
+                  Calls <SortIcon field="calls" />
+                </div>
               </th>
               <th
                 scope="col"
-                className="px-3 py-3.5 text-left text-xs font-medium text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white transition-colors"
+                className="px-3 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-blue-400 transition-colors group"
                 onClick={() => handleSort('rows')}
               >
-                Rows <SortIcon field="rows" />
+                <div className="flex items-center gap-1">
+                  Rows <SortIcon field="rows" />
+                </div>
               </th>
               {mode === 'daily-top' && (
-                <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th scope="col" className="px-3 py-4 text-left text-xs font-bold text-slate-400 uppercase tracking-wider">
                   Last Seen
                 </th>
               )}
-              <th scope="col" className="px-3 py-3.5 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+              <th scope="col" className="px-3 py-4 text-right text-xs font-bold text-slate-400 uppercase tracking-wider pr-8">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-700 bg-slate-800">
-            {filteredAndSortedQueries.map((query) => {
+          <tbody className="divide-y divide-slate-700/30 bg-transparent">
+            {filteredAndSortedQueries.map((query, index) => {
               const severityClass = getSeverityColor(query.mean_time);
               return (
-                <tr key={query.queryid} className="hover:bg-slate-700/50 transition-colors">
-                  <td className="py-4 pl-4 pr-3 text-sm sm:pl-6">
-                    <div className="font-mono text-xs text-slate-300 break-all line-clamp-2 hover:line-clamp-none cursor-help" title={query.query}>
+                <tr
+                  key={query.queryid}
+                  className={`hover:bg-slate-700/30 transition-colors duration-200 ${index % 2 === 0 ? 'bg-slate-800/10' : 'bg-transparent'}`}
+                >
+                  <td className="py-4 pl-8 pr-3 text-sm">
+                    <div className="font-mono text-xs text-slate-300 break-all line-clamp-2 hover:line-clamp-none cursor-help transition-all duration-200" title={query.query}>
                       {query.query === '<insufficient privilege>' ? (
-                        <span className="text-yellow-500 flex items-center gap-1">
+                        <span className="text-yellow-500 flex items-center gap-2 bg-yellow-500/10 px-2 py-1 rounded border border-yellow-500/20 w-fit">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                           </svg>
-                          Insufficient Privilege (Try connecting as superuser)
+                          Insufficient Privilege
                         </span>
                       ) : (
                         query.query
@@ -133,14 +142,14 @@ const QueryTable: React.FC<QueryTableProps> = ({ queries, onAnalyze, mode }) => 
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${severityClass}`}>
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border shadow-sm ${severityClass}`}>
                       {query.mean_time.toFixed(2)} ms
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-300">
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-300 font-mono">
                     {query.calls.toLocaleString()}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-300">
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-300 font-mono">
                     {query.rows.toLocaleString()}
                   </td>
                   {mode === 'daily-top' && (
@@ -148,15 +157,15 @@ const QueryTable: React.FC<QueryTableProps> = ({ queries, onAnalyze, mode }) => 
                       {query.last_seen ? new Date(query.last_seen).toLocaleTimeString() : '-'}
                     </td>
                   )}
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-right">
+                  <td className="whitespace-nowrap px-3 py-4 text-sm text-right pr-8">
                     <button
                       onClick={() => onAnalyze(query)}
-                      className="text-purple-400 hover:text-purple-300 flex items-center space-x-1 text-xs font-medium bg-purple-500/10 hover:bg-purple-500/20 px-3 py-1.5 rounded-md border border-purple-500/20 transition-all"
+                      className="group flex items-center gap-2 text-xs font-bold text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 px-4 py-2 rounded-lg shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all duration-300 transform hover:-translate-y-0.5 ml-auto"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
-                      <span>Analyze AI</span>
+                      <span>Analyze</span>
                     </button>
                   </td>
                 </tr>
@@ -165,8 +174,14 @@ const QueryTable: React.FC<QueryTableProps> = ({ queries, onAnalyze, mode }) => 
           </tbody>
         </table>
         {filteredAndSortedQueries.length === 0 && (
-          <div className="text-center py-12 text-slate-500">
-            No queries found matching your search.
+          <div className="text-center py-16 text-slate-500 flex flex-col items-center">
+            <div className="bg-slate-800/50 p-4 rounded-full mb-4">
+              <svg className="w-8 h-8 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium">No queries found</p>
+            <p className="text-sm mt-1">Try adjusting your search terms</p>
           </div>
         )}
       </div>
