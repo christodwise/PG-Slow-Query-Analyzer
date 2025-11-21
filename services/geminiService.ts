@@ -32,10 +32,25 @@ export const analyzeQuery = async (queryStat: QueryStat): Promise<string> => {
     - Cache Hits (Shared Blks Hit): ${queryStat.shared_blks_hit}
 
     **Instructions:**
-    1. Identify why this query might be performing poorly based on the metrics (e.g., high disk reads implies missing index or cold cache).
-    2. Suggest specific PostgreSQL indexes (CREATE INDEX ...).
-    3. Suggest query rewrites if applicable.
-    4. Keep the response concise, using Markdown formatting.
+    Provide a concise analysis in the following Markdown format:
+
+    ### 🔍 Analysis
+    [Briefly explain the bottleneck based on the metrics (e.g., high disk reads, full table scan, etc.)]
+
+    ### 🚀 Recommendations
+    1. [First recommendation]
+    2. [Second recommendation]
+
+    ### 💻 Suggested SQL
+    \`\`\`sql
+    -- [SQL command for index or rewrite]
+    \`\`\`
+
+    **Rules:**
+    - Keep it concise and actionable.
+    - Use bolding for key terms.
+    - ALWAYS provide the SQL command for any suggested index.
+    - If no index is needed, explain why.
   `;
 
   try {
