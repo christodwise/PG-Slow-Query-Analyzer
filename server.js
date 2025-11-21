@@ -213,10 +213,40 @@ async function collectMetrics(config) {
 
     console.log(`Metrics collected at ${new Date().toISOString()}`);
 
+    // Run cleanup after collection
+    await cleanupOldData();
+
   } catch (err) {
     console.error('Monitoring job error:', err.message);
   } finally {
     await client.end();
+  }
+}
+
+async function cleanupOldData() {
+  try {
+    const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+    const oneDayAgoDate = new Date(oneDayAgo).toISOString().split('T')[0];
+
+    // Cleanup system metrics older than 24 hours
+    const metricsResult = await db.run('DELETE FROM system_metrics WHERE timestamp < ?', oneDayAgo);
+
+    // Cleanup daily top queries older than 1 day (keep today's)
+    // We use < oneDayAgoDate to be safe, or just keep only today's date? 
+    // The requirement is "keep only one day data". 
+    // If we delete everything where date != today, we lose history immediately at midnight.
+    // Let's keep last 24 hours implies keeping "yesterday" until it's fully 24h old? 
+    // Actually, daily_top_queries is keyed by DATE. So we should keep "today".
+    // Maybe keep last 2 days to be safe? User said "keep only one day data".
+    // Let's delete anything where date < today.
+    const today = new Date().toISOString().split('T')[0];
+    const queriesResult = await db.run('DELETE FROM daily_top_queries WHERE date < ?', today);
+
+    if (metricsResult.changes > 0 || queriesResult.changes > 0) {
+      console.log(`Cleanup: Removed ${metricsResult.changes} old metrics and ${queriesResult.changes} old query records.`);
+    }
+  } catch (err) {
+    console.error('Cleanup job error:', err);
   }
 }
 
