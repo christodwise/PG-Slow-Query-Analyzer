@@ -1,0 +1,4 @@
+{
+  "name": "PG Slow Query Analyzer",
+  "description": "A PostgreSQL dashboard to visualize and analyze slow queries using pg_stat_statements data, with AI-powered optimization suggestions."
+}

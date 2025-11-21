@@ -1,0 +1,9 @@
+{
+  "host": "192.168.10.25",
+  "port": "5432",
+  "user": "Canary_DevDBA",
+  "password": "PLhlgy4NA6z3DgkZxL0=",
+  "database": "Canary_DevDB",
+  "name": "Canary_DevDB",
+  "id": "1763666370681"
+}
