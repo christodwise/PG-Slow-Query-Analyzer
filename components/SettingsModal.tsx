@@ -62,15 +62,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
                             </div>
                         </div>
                         <p className="mt-2 text-xs text-slate-500">
-                            Your API key is stored locally in your browser and never sent to our servers.
+                            Your API key is stored locally in your browser. <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">Get a free Gemini API key here</a>.
                         </p>
                     </div>
 
                     <button
                         onClick={handleSave}
                         className={`w-full py-3 px-4 rounded-xl font-bold text-white transition-all transform active:scale-[0.98] flex justify-center items-center gap-2 ${saved
-                                ? 'bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/20'
-                                : 'bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/20'
+                            ? 'bg-green-500 hover:bg-green-600 shadow-lg shadow-green-500/20'
+                            : 'bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/20'
                             }`}
                     >
                         {saved ? (
