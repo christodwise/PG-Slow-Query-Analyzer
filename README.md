@@ -2,6 +2,8 @@
 
 A modern, real-time dashboard for analyzing PostgreSQL slow queries using `pg_stat_statements`.
 
+![Dashboard Preview](screenshots/dashboard_preview.png)
+
 ## Features
 
 ### 📊 Real-time Analysis
@@ -9,6 +11,8 @@ View top slow queries sorted by execution time. The dashboard now **only** displ
 
 ### 💾 Multiple Connections
 Save, load, and delete multiple database connection profiles. Connections are persisted in your browser's local storage for easy access.
+
+![Connection Screen](screenshots/connection_screen.png)
 
 ### 🧹 Reset Statistics
 Clear query history to start a new analysis window. This executes `SELECT pg_stat_statements_reset()` on your database, serving as an alternative to "date range" filtering.
