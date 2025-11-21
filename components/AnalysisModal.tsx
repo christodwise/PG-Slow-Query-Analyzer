@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { QueryStat } from '../types';
 import { analyzeQuery } from '../services/geminiService';
 
@@ -105,8 +106,31 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ queryStat, onClose }) => 
                     </>
                   )}
                 </h4>
-                <div className="whitespace-pre-wrap text-slate-300 text-sm leading-relaxed font-light tracking-wide">
-                  {analysis}
+                <div className="text-slate-300 text-sm leading-relaxed font-light tracking-wide">
+                  <ReactMarkdown
+                    components={{
+                      h3: ({ node, ...props }) => <h3 className="text-lg font-bold text-white mt-4 mb-2" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc list-inside space-y-1 mb-4" {...props} />,
+                      ol: ({ node, ...props }) => <ol className="list-decimal list-inside space-y-1 mb-4" {...props} />,
+                      li: ({ node, ...props }) => <li className="text-slate-300" {...props} />,
+                      code: ({ node, className, children, ...props }) => {
+                        const match = /language-(\w+)/.exec(className || '')
+                        return match ? (
+                          <div className="bg-slate-900 rounded-lg p-4 my-4 border border-slate-700 overflow-x-auto">
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          </div>
+                        ) : (
+                          <code className="bg-slate-700/50 px-1.5 py-0.5 rounded text-purple-300 font-mono text-xs" {...props}>
+                            {children}
+                          </code>
+                        )
+                      }
+                    }}
+                  >
+                    {analysis || ''}
+                  </ReactMarkdown>
                 </div>
                 {analysis?.includes('Error: API Key not found') && (
                   <div className="mt-4 pt-4 border-t border-red-500/20">

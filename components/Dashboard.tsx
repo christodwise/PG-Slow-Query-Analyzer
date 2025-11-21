@@ -335,6 +335,36 @@ const Dashboard: React.FC<DashboardProps> = ({ connection, onDisconnect }) => {
           </div>
         )}
 
+        {/* Empty State for Monitoring */}
+        {mode === 'monitoring' && systemMetrics.length === 0 && !loading && (
+          <div className="text-center py-12 bg-slate-800/30 rounded-2xl border border-slate-700/50 border-dashed animate-fade-in">
+            <div className="bg-slate-800/50 p-4 rounded-full inline-block mb-4">
+              <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-white mb-2">No Monitoring Data Yet</h3>
+            <p className="text-slate-400 max-w-md mx-auto">
+              Start monitoring to collect system metrics. Data will appear here once the first snapshot is taken.
+            </p>
+          </div>
+        )}
+
+        {/* Empty State for Daily Top */}
+        {mode === 'daily-top' && queries.length === 0 && !loading && (
+          <div className="text-center py-12 bg-slate-800/30 rounded-2xl border border-slate-700/50 border-dashed animate-fade-in">
+            <div className="bg-slate-800/50 p-4 rounded-full inline-block mb-4">
+              <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-white mb-2">No Daily Top Queries</h3>
+            <p className="text-slate-400 max-w-md mx-auto">
+              No slow queries have been recorded for today yet. Ensure monitoring is active to capture historical data.
+            </p>
+          </div>
+        )}
+
         {/* Main Content - Query Table */}
         {(mode === 'live' || mode === 'daily-top') && (
           <div className="glass-panel rounded-2xl overflow-hidden shadow-2xl animate-fade-in-up ring-1 ring-white/5">
