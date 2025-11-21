@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ConnectionDetails } from '../types';
+import SettingsModal from './SettingsModal';
 
 interface ConnectionFormProps {
   onConnect: (details: ConnectionDetails) => void;
@@ -10,6 +11,7 @@ interface ConnectionFormProps {
 const ConnectionForm: React.FC<ConnectionFormProps> = ({ onConnect, loading, error }) => {
   const [savedConnections, setSavedConnections] = useState<ConnectionDetails[]>([]);
   const [showSaved, setShowSaved] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [form, setForm] = useState<ConnectionDetails>({
     host: 'localhost',
@@ -67,7 +69,21 @@ const ConnectionForm: React.FC<ConnectionFormProps> = ({ onConnect, loading, err
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 animate-fade-in">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 animate-fade-in relative">
+      <div className="absolute top-4 right-4 z-20">
+        <button
+          onClick={() => setShowSettings(true)}
+          className="p-2 text-slate-400 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-200 border border-transparent hover:border-slate-700/50 flex items-center gap-2"
+          title="Settings"
+        >
+          <span className="text-xs font-medium uppercase tracking-wider">API Key</span>
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </button>
+      </div>
+
       <div className="max-w-md w-full glass-card rounded-2xl shadow-2xl p-8 border border-slate-700/50 relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
@@ -262,6 +278,7 @@ const ConnectionForm: React.FC<ConnectionFormProps> = ({ onConnect, loading, err
           )}
         </div>
       </div>
+      {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
     </div>
   );
 }
